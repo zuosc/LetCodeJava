@@ -5,58 +5,46 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class SerializeAndDeserializeBst {
-    private static final String spliter = ",";
+    private static final String splinter = ",";
     private static final String NN = "#";
 
     public static void main(String[] args) {
 
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(3);
+        treeNode.right = new TreeNode(4);
+
+        String str = serialize(treeNode);
+        System.out.println(str);
+
+
+       TreeNode treeNode1= deserialize(str);
+
     }
 
-    private String serialize1(TreeNode root) {
-        if (root == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            TreeNode t = queue.poll();
-            if (t != null) {
-                sb.append(String.valueOf(t.val)).append(",");
-                queue.add(t.left);
-                queue.add(t.right);
-            } else {
-                sb.append("#,");
-            }
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        System.out.println(sb.toString());
-        return sb.toString();
-    }
-
-
-    private String serialize(TreeNode root) {
+    private static String serialize(TreeNode root) {
         StringBuilder sb = new StringBuilder();
         buildString(root, sb);
         return sb.toString();
     }
 
-    private void buildString(TreeNode node, StringBuilder sb) {
+    private static void buildString(TreeNode node, StringBuilder sb) {
         if (node == null) {
-            sb.append(NN).append(spliter);
+            sb.append(NN).append(splinter);
         } else {
-            sb.append(node.val).append(spliter);
+            sb.append(node.val).append(splinter);
             buildString(node.left, sb);
             buildString(node.right, sb);
         }
     }
 
 
-    private TreeNode deserialize(String data) {
-        Deque<String> nodes = new LinkedList<>(Arrays.asList(data.split(spliter)));
+    private static TreeNode deserialize(String data) {
+        Deque<String> nodes = new LinkedList<>(Arrays.asList(data.split(splinter)));
         return buildTree(nodes);
     }
-    private TreeNode buildTree(Deque<String> nodes) {
+
+    private static TreeNode buildTree(Deque<String> nodes) {
         String val = nodes.remove();
         if (val.equals(NN)) return null;
         else {
@@ -74,6 +62,7 @@ class TreeNode {
     TreeNode left;
     //右孩子
     TreeNode right;
+
     TreeNode(int x) {
         val = x;
     }
